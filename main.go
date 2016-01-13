@@ -27,13 +27,13 @@ func Run(args []string) {
 		{
 			Name:   "server",
 			Usage:  "Runs server",
-			Action: RunServer,
+			Action: StartServer,
 			Flags:  []cli.Flag{verboseFlag},
 		},
 		{
 			Name:   "client",
 			Usage:  "Runs client",
-			Action: RunClient,
+			Action: StartClient,
 			Flags:  []cli.Flag{verboseFlag},
 		},
 	}
@@ -42,10 +42,10 @@ func Run(args []string) {
 
 }
 
-// RunServer runs server-side daemon
-func RunServer(c *cli.Context) {
+// StartServer runs server-side daemon
+func StartServer(c *cli.Context) {
 }
 
-// RunClient runs client-side daemon
-func RunClient(c *cli.Context) {
+// StartClient runs client-side daemon
+func StartClient(c *cli.Context) {
 }
