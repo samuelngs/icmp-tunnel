@@ -1,22 +1,15 @@
 package main
 
-// InterfaceType is the type of interface
-type InterfaceType struct {
-	name string
-}
-
-// String returns interface type name
-func (t *InterfaceType) String() string {
-	return t.name
-}
+// interfaces is the type of interface
+type interfaces string
 
 // Interface types
 var (
-	InterfaceTypeTap  = &InterfaceType{"tap"}
-	InterfaceTypeTun  = &InterfaceType{"tun"}
-	InterfaceTypeEth  = &InterfaceType{"eth"}
-	InterfaceTypeVLan = &InterfaceType{"vlan"}
-	InterfaceTypeBr   = &InterfaceType{"br"}
-	InterfaceTypeWLan = &InterfaceType{"wlan"}
-	InterfaceTypeAth  = &InterfaceType{"ath"}
+	InterfaceTypeTap  interfaces = "tap"
+	InterfaceTypeTun  interfaces = "tun"
+	InterfaceTypeEth  interfaces = "eth"
+	InterfaceTypeVLan interfaces = "vlan"
+	InterfaceTypeBr   interfaces = "br"
+	InterfaceTypeWLan interfaces = "wlan"
+	InterfaceTypeAth  interfaces = "ath"
 )
