@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
+
+	"golang.org/x/net/icmp"
 
 	"github.com/codegangsta/cli"
 )
@@ -10,15 +11,17 @@ import (
 // RunServer runs server-side daemon
 func RunServer(c *cli.Context) {
 
-	// creates a tap interface
-	iface, err := TapInterface()
-
+	iface, err := CreateIface()
 	if err != nil {
-		log.Printf("creating interface error: %v\n", err)
+		panic(fmt.Sprintf("creating interface error: %v\n", err))
 	}
+	defer iface.Close()
 
-	iface.ParseIP(10, 0, 40, 1)
-	iface.Up()
+	conn, err := ListenICMP()
+	if err != nil {
+		panic(fmt.Sprintf("listen icmp packet error: %v\n", err))
+	}
+	defer conn.Close()
 
 	data := make(chan []byte, 8)
 
@@ -32,14 +35,36 @@ func RunServer(c *cli.Context) {
 		}
 	}()
 
-	fmt.Println(iface.Name())
-
 	for {
 		select {
 		case buffer := <-data:
-			if buffer != nil {
-			}
-			// fmt.Println(buffer[:])
+			fmt.Println(string(buffer[:]))
 		}
 	}
+}
+
+// CreateIface creates network interface
+func CreateIface() (*Interface, error) {
+
+	// creates a tap interface
+	iface, err := TapInterface()
+
+	if err == nil {
+		// set network interface ip
+		iface.ParseIP(10, 0, 40, 1)
+		iface.Up()
+	}
+
+	return iface, err
+}
+
+// ListenICMP listens to incoming ICMP packet
+func ListenICMP() (*icmp.PacketConn, error) {
+
+	conn, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
+	defer func() {
+		conn.Close()
+	}()
+
+	return conn, err
 }
