@@ -23,7 +23,7 @@ func RunServer(c *cli.Context) {
 	}
 	defer conn.Close()
 
-	data := make(chan []byte, 8)
+	data := make(chan []byte)
 
 	go func() {
 		for {
@@ -60,11 +60,5 @@ func CreateIface() (*Interface, error) {
 
 // ListenICMP listens to incoming ICMP packet
 func ListenICMP() (*icmp.PacketConn, error) {
-
-	conn, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
-	defer func() {
-		conn.Close()
-	}()
-
-	return conn, err
+	return icmp.ListenPacket("ip4:icmp", "0.0.0.0")
 }
