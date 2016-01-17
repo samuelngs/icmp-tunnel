@@ -1,13 +1,11 @@
 default: all
 
 all:
-	@go build ||:
+	@go build -race ||:
 
-server:
-	@go build ||:
-	@./icmp-tunnel server ||:
+server: all
+	@sudo ./icmp-tunnel server ||:
 
 client:
-	@go build ||:
-	@./icmp-tunnel client ||:
+	@sudo ./icmp-tunnel client ||:
 
