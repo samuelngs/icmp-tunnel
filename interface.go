@@ -45,6 +45,11 @@ func (i *Interface) Read(p []byte) (int, error) {
 	return i.device.Read(p)
 }
 
+// Close to close interface
+func (i *Interface) Close() error {
+	return i.device.Close()
+}
+
 // ParseIP parses ip address
 func (i *Interface) ParseIP(a, b, c, d byte) {
 	self := net.IPv4(a, b, c, d)
