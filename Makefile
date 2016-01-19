@@ -6,6 +6,6 @@ all:
 server: all
 	@sudo ./icmp-tunnel server ||:
 
-client:
+client: all
 	@sudo ./icmp-tunnel client ||:
 
